@@ -282,11 +282,9 @@ setup(void) {
 	int a, j, di, n, area = 0;
 #endif
 
-	/* Init appearance */
-	scheme[SchemePrompt] = drw_scm_create(drw, colors[SchemePrompt], 2);
-	scheme[SchemeNormal] = drw_scm_create(drw, colors[SchemeNormal], 2);
-	scheme[SchemeSelect] = drw_scm_create(drw, colors[SchemeSelect], 2);
-	scheme[SchemeDesc]   = drw_scm_create(drw, colors[SchemeDesc],   2);
+	/* init appearance */
+	for (j = 0; j < SchemeLast; j++)
+		scheme[j] = drw_scm_create(drw, colors[j], 2);
 
 	clip = XInternAtom(dpy, "CLIPBOARD",   False);
 	utf8 = XInternAtom(dpy, "UTF8_STRING", False);
