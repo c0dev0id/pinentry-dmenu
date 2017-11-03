@@ -551,17 +551,20 @@ keypress(XKeyEvent *ev) {
 }
 
 static void
-paste(void) {
+paste(void)
+{
 	char *p, *q;
 	int di;
 	unsigned long dl;
 	Atom da;
 
-	/* We have been given the current selection, now insert it into input */
-	XGetWindowProperty(dpy, win, utf8, 0, pin_len / 4, False, utf8, &da, &di,
-	                   &dl, &dl, (unsigned char **)&p);
-	insert(p, (q = strchr(p, '\n')) ? q - p : (ssize_t) strlen(p));
-	XFree(p);
+	/* we have been given the current selection, now insert it into input */
+	if (XGetWindowProperty(dpy, win, utf8, 0, (pin_len/ 4) + 1, False,
+	                   utf8, &da, &di, &dl, &dl, (unsigned char **)&p)
+	    == Success && p) {
+		insert(p, (q = strchr(p, '\n')) ? q - p : (ssize_t)strlen(p));
+		XFree(p);
+	}
 	drawwin();
 }
 
