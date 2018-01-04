@@ -270,7 +270,7 @@ drawwin(void) {
 static void
 setup(void)
 {
-	int x, y, i, j = 0;
+	int x, y, i, j;
 	unsigned int du;
 	XSetWindowAttributes swa;
 	XIM xim;
@@ -294,6 +294,7 @@ setup(void)
 	bh = MAX(bh, lineheight);
 	mh = bh;
 #ifdef XINERAMA
+	i = 0;
 	info = XineramaQueryScreens(dpy, &n);
 
 	if (parentwin == root && info) {
