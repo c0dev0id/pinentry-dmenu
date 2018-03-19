@@ -360,6 +360,7 @@ setup(void)
 	xic = XCreateIC(xim, XNInputStyle, XIMPreeditNothing | XIMStatusNothing,
 	                XNClientWindow, win, XNFocusWindow, win, NULL);
 	XMapRaised(dpy, win);
+	XSetInputFocus(dpy, win, RevertToParent, CurrentTime);
 
 	if (embedded) {
 		XSelectInput(dpy, parentwin, FocusChangeMask);
@@ -570,15 +571,15 @@ paste(void)
 }
 
 void
-run(void) {
+run(void)
+{
 	XEvent ev;
 
 	drawwin();
 
 	while (!XNextEvent(dpy, &ev)) {
-		if (XFilterEvent(&ev, win)) {
+		if (XFilterEvent(&ev, None))
 			continue;
-		}
 		switch(ev.type) {
 		case Expose:
 			if (ev.xexpose.count == 0) {
@@ -660,6 +661,8 @@ cmdhandler(pinentry_t received_pinentry) {
 	if (!setlocale(LC_CTYPE, "") || !XSupportsLocale()) {
 		fputs("warning: no locale support\n", stderr);
 	}
+	if (!XSetLocaleModifiers(""))
+		fputs("warning: no locale modifiers support\n", stderr);
 	if (!(dpy = XOpenDisplay(pinentry_info->display))) {
 		die("cannot open display");
 	}
