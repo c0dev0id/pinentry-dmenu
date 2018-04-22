@@ -250,7 +250,7 @@ drawwin(void) {
 		censort[i+1] = '\n';
 		leftinput = mw - x - pbw;
 		drw_text(drw, x, 0, leftinput, bh, lrpad / 2, censort, 0);
-		drw_font_getexts(drw->fonts, censort, cursor * asterlen, &curpos, NULL);
+		curpos = TEXTW(censort) - TEXTW(&censort[cursor]);
 
 		if ((curpos += lrpad / 2 - 1) < leftinput) {
 			drw_setscheme(drw, scheme[SchemeNormal]);
