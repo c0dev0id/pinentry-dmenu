@@ -33,12 +33,6 @@
 #define TEXTW(X) (drw_fontset_getwidth(drw, (X)) + lrpad)
 #define MINDESCLEN 8
 
-#ifdef __OpenBSD__
-#include <unistd.h>
-#else
-#define pledge(a,b) 0
-#endif
-
 enum { SchemePrompt, SchemeNormal, SchemeSelect, SchemeDesc, SchemeLast };
 enum { WinPin, WinConfirm };
 enum { Ok, NotOk, Cancel };
@@ -684,8 +678,10 @@ cmdhandler(pinentry_t received_pinentry) {
 	}
 	lrpad = drw->fonts->h;
 
+#ifdef __OpenBSD__
 	if (pledge("stdio rpath", NULL) < 0)
 		die("pledge");
+#endif
 
 	drw_setscheme(drw, scheme[SchemePrompt]);
 
