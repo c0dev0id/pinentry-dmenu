@@ -679,7 +679,7 @@ cmdhandler(pinentry_t received_pinentry) {
 	lrpad = drw->fonts->h;
 
 #ifdef __OpenBSD__
-	if (pledge("stdio rpath", NULL) < 0)
+	if (pledge("stdio rpath", NULL) == -1)
 		die("pledge");
 #endif
 
