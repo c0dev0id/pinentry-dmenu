@@ -355,20 +355,12 @@ setup(void)
 	XSetClassHint(dpy, win, &ch);
 
 	/* input methods */
-	if ((xim = XOpenIM(dpy, NULL, NULL, NULL)) == NULL) {
-		XSetLocaleModifiers("@im=local");
-		if ((xim = XOpenIM(dpy, NULL, NULL, NULL)) == NULL) {
-			XSetLocaleModifiers("@im=");
-			if ((xim = XOpenIM(dpy, NULL, NULL, NULL)) == NULL)
-				die("XOpenIM failed: could not open input device");
-		}
-	}
+	if ((xim = XOpenIM(dpy, NULL, NULL, NULL)) == NULL)
+		die("XOpenIM failed: could not open input device");
 
 	xic = XCreateIC(xim, XNInputStyle, XIMPreeditNothing | XIMStatusNothing,
 	                XNClientWindow, win, XNFocusWindow, win, NULL);
 	XMapRaised(dpy, win);
-	XSetInputFocus(dpy, win, RevertToParent, CurrentTime);
-
 	if (embedded) {
 		XSelectInput(dpy, parentwin, FocusChangeMask | SubstructureNotifyMask);
 
@@ -585,7 +577,7 @@ run(void)
 	drawwin();
 
 	while (!XNextEvent(dpy, &ev)) {
-		if (XFilterEvent(&ev, None))
+		if (XFilterEvent(&ev, win))
 			continue;
 		switch(ev.type) {
 		case DestroyNotify:
@@ -673,8 +665,6 @@ cmdhandler(pinentry_t received_pinentry) {
 	if (!setlocale(LC_CTYPE, "") || !XSupportsLocale()) {
 		fputs("warning: no locale support\n", stderr);
 	}
-	if (!XSetLocaleModifiers(""))
-		fputs("warning: no locale modifiers support\n", stderr);
 	if (!(dpy = XOpenDisplay(pinentry_info->display))) {
 		die("cannot open display");
 	}
