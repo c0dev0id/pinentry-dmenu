@@ -426,17 +426,23 @@ keypress_confirm(XKeyEvent *ev, KeySym ksym) {
 	case XK_h:
 	case XK_j:
 	case XK_Home:
+	case XK_KP_Home:
 	case XK_Left:
+	case XK_KP_Left:
 	case XK_Prior:
+	case XK_KP_Prior:
 	case XK_Up:
+	case XK_KP_Up:
 		sel = No;
 		break;
 	case XK_k:
 	case XK_l:
 	case XK_Down:
+	case XK_KP_Down:
 	case XK_End:
 	case XK_Next:
 	case XK_Right:
+	case XK_KP_Right:
 		sel = Yes;
 		break;
 	}
@@ -483,6 +489,7 @@ keypress_pin(XKeyEvent *ev, KeySym ksym, char* buf, int len) {
 
 	switch(ksym) {
 	case XK_Delete:
+	case XK_KP_Delete:
 		if (pin[cursor] == '\0') {
 			return 0;
 		}
@@ -498,19 +505,23 @@ keypress_pin(XKeyEvent *ev, KeySym ksym, char* buf, int len) {
 		pinentry_info->canceled = 1;
 		return 1;
 	case XK_Left:
+	case XK_KP_Left:
 		if (cursor > 0) {
 			cursor = nextrune(cursor, -1);
 		}
 		break;
 	case XK_Right:
+	case XK_KP_Right:
 		if (pin[cursor] != '\0') {
 			cursor = nextrune(cursor, +1);
 		}
 		break;
 	case XK_Home:
+	case XK_KP_Home:
 		cursor = 0;
 		break;
 	case XK_End:
+	case XK_KP_End:
 		cursor = strlen(pin);
 		break;
 	case XK_Return:
