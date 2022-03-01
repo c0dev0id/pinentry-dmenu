@@ -26,9 +26,8 @@
 
 #define CONFIG_DIR "/.gnupg"
 #define CONFIG_FILE "/pinentry-dmenu.conf"
-#define INTERSECT(x, y, w, h, r) \
-		(MAX(0, MIN((x)+(w),(r).x_org+(r).width) - MAX((x),(r).x_org)) \
-		 && MAX(0, MIN((y)+(h),(r).y_org+(r).height) - MAX((y),(r).y_org)))
+#define INTERSECT(x,y,w,h,r)  (MAX(0, MIN((x)+(w),(r).x_org+(r).width)  - MAX((x),(r).x_org)) \
+                             * MAX(0, MIN((y)+(h),(r).y_org+(r).height) - MAX((y),(r).y_org)))
 #define LENGTH(X) (sizeof(X) / sizeof(X[0]))
 #define TEXTW(X) (drw_fontset_getwidth(drw, (X)) + lrpad)
 #define MINDESCLEN 8
@@ -319,14 +318,10 @@ setup(void)
 			}
 		}
 		/* No focused window is on screen, so use pointer location instead */
-		if (mon < 0 && !area
-		    && XQueryPointer(dpy, root, &dw, &dw, &x, &y, &di, &di, &du)) {
-			for (i = 0; i < n; i++) {
-				if (INTERSECT(x, y, 1, 1, info[i])) {
+		if (mon < 0 && !area && XQueryPointer(dpy, root, &dw, &dw, &x, &y, &di, &di, &du))
+			for (i = 0; i < n; i++)
+				if (INTERSECT(x, y, 1, 1, info[i]) != 0)
 					break;
-				}
-			}
-		}
 
 		x = info[i].x_org;
 		y = info[i].y_org + (bottom ? info[i].height - mh : 0);
