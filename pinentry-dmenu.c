@@ -524,7 +524,7 @@ keypress_pin(XKeyEvent *ev, KeySym ksym, char* buf, int len) {
 		return 1;
 		break;
 	default:
-		if (!iscntrl(*buf))
+		if (!iscntrl((unsigned char)*buf))
 			insert(buf, len);
 	}
 
