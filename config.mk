@@ -1,6 +1,6 @@
 # Pinentry settings
 VERSION   = 0.1
-BUGREPORT = https:\/\/github.com\/ritze\/pinentry-dmenu
+BUGREPORT = https:\/\/github.com\/0x766F6964\/pinentry-dmenu
 
 # Paths
 PREFIX    = /usr/local
@@ -21,7 +21,7 @@ FREETYPEINC = /usr/include/freetype2
 
 # Includes and libs
 INCS = -I$(X11INC) -I$(FREETYPEINC)
-LIBS = -lassuan -lgpgme -lgpg-error -L$(X11LIB) -lX11 $(XINERAMALIBS) $(FREETYPELIBS)
+LIBS = -lassuan -lgpg-error -L$(X11LIB) -lX11 $(XINERAMALIBS) $(FREETYPELIBS)
 
 # Flags
 CPPFLAGS = -D_DEFAULT_SOURCE -D_POSIX_C_SOURCE=200809L -DVERSION=\"$(VERSION)\" $(XINERAMAFLAGS) -DPACKAGE_VERSION=\"$(VERSION)\" -DPACKAGE_BUGREPORT=\"$(BUGREPORT)\"
