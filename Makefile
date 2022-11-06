@@ -1,11 +1,24 @@
 # pinentry-dmenu - dmenu-like stupid pin entry
 # See LICENSE file for copyright and license details.
+.POSIX:
 
 include config.mk
 
 SRC = pinentry-dmenu.c drw.c util.c
 OBJ = $(SRC:.c=.o)
-OBJ_PIN = pinentry/pinentry.o pinentry/util.o pinentry/password-cache.o pinentry/argparse.o pinentry/secmem.o
+PIN_SRC = \
+	pinentry/argparse.c\
+	pinentry/password-cache.c\
+	pinentry/pinentry.c\
+	pinentry/secmem.c\
+	pinentry/util.c
+PIN_OBJ = $(PIN_SRC:.c=.o)
+PIN_DEP = \
+	pinentry/argparse.h\
+	pinentry/password-cache.h\
+	pinentry/pinentry.h\
+	pinentry/memory.h\
+	pinentry/util.h
 
 all: options pinentry-dmenu
 
@@ -16,22 +29,20 @@ options:
 	@echo "CC       = $(CC)"
 
 .c.o:
-	$(CC) -c $(CFLAGS) $(INCS) $<
+	$(CC) -c $(CFLAGS) $(INCS) $(CPPFLAGS) -o $@ -c $<
 
 config.h:
 	cp config.def.h $@
 
 $(OBJ): config.h config.mk drw.h
 
-pinentry:
-	$(MAKE) -C pinentry
+$(PIN_OBJ): $(PIN_DEPS)
 
-pinentry-dmenu: pinentry pinentry-dmenu.o drw.o util.o
-	$(CC) -o $@ $(OBJ) $(OBJ_PIN) $(LDFLAGS) $(LIBS)
+pinentry-dmenu: $(OBJ) $(PIN_OBJ)
+	$(CC) -o $@ $(OBJ) $(PIN_OBJ) $(LDFLAGS) $(LIBS)
 
 clean:
-	rm -f pinentry-dmenu $(OBJ)
-	$(MAKE) -C pinentry/ clean
+	rm -f pinentry-dmenu $(OBJ) $(PIN_OBJ)
 
 dist: clean
 	mkdir -p pinentry-dmenu-$(VERSION)
