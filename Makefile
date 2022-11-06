@@ -36,7 +36,7 @@ config.h:
 
 $(OBJ): config.h config.mk drw.h
 
-$(PIN_OBJ): $(PIN_DEPS)
+$(PIN_OBJ): $(PIN_DEP)
 
 pinentry-dmenu: $(OBJ) $(PIN_OBJ)
 	$(CC) -o $@ $(OBJ) $(PIN_OBJ) $(LDFLAGS) $(LIBS)
