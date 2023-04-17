@@ -4,7 +4,7 @@ BUGREPORT = https:\/\/github.com\/c0dev0id\/pinentry-dmenu
 
 # Paths
 PREFIX    = /usr/local
-MANPREFIX = $(PREFIX)/share/man
+MANPREFIX = $(PREFIX)/man
 
 X11INC = /usr/X11R6/include
 X11LIB = /usr/X11R6/lib

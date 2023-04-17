@@ -20,13 +20,7 @@ PIN_DEP = \
 	pinentry/memory.h\
 	pinentry/util.h
 
-all: options pinentry-dmenu
-
-options:
-	@echo pinentry-dmenu build options:
-	@echo "CFLAGS   = $(CFLAGS)"
-	@echo "LDFLAGS  = $(LDFLAGS)"
-	@echo "CC       = $(CC)"
+all: pinentry-dmenu
 
 .c.o:
 	$(CC) -c $(CFLAGS) $(INCS) $(CPPFLAGS) -o $@ -c $<
@@ -44,13 +38,15 @@ pinentry-dmenu: $(OBJ) $(PIN_OBJ)
 clean:
 	rm -f pinentry-dmenu $(OBJ) $(PIN_OBJ)
 
-dist: clean
+distclean: clean
+	rm -f config.h
+	rm -rf pinentry-dmenu-$(VERSION)*
+
+dist: distclean
 	mkdir -p pinentry-dmenu-$(VERSION)
-	cp LICENSE Makefile README arg.h config.def.h config.mk dmenu.1 \
-		drw.h util.h $(SRC) \
-		pinentry-dmenu-$(VERSION)
-	tar -cf pinentry-dmenu-$(VERSION).tar pinentry-dmenu-$(VERSION)
-	gzip pinentry-dmenu-$(VERSION).tar
+	cp -r LICENSE Makefile *.md *.h *.mk *.1 *.c pinentry \
+		pinentry-dmenu-$(VERSION)/
+	tar -czf pinentry-dmenu-$(VERSION).tgz pinentry-dmenu-$(VERSION)
 	rm -rf pinentry-dmenu-$(VERSION)
 
 install: all
@@ -65,4 +61,4 @@ uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/pinentry-dmenu
 	rm -f $(DESTDIR)$(MANPREFIX)/man1/pinentry-dmenu.1
 
-.PHONY: all options clean dist install pinentry uninstall
+.PHONY: clean dist distclean install uninstall
