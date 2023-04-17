@@ -1,7 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* minimum length to use for displaying the pw field */
-static int minpwflen = 16;
+static int minpwlen = 16;
 
 /* character to be used as a replacement for typed characters */
 static const char *asterisk = "*";
@@ -18,7 +18,7 @@ static const char *prompt = NULL;
 static const char *colors[SchemeLast][2] = {
 	/*     fg         bg       */
 	[SchemePrompt] = { "#bbbbbb", "#222222" },
-	[SchemeNorm]   = { "#bbbbbb", "#222222" },
-	[SchemeSel]    = { "#eeeeee", "#005577" },
+	[SchemeNormal] = { "#bbbbbb", "#222222" },
+	[SchemeSelect] = { "#eeeeee", "#005577" },
 	[SchemeDesc]   = { "#bbbbbb", "#222222" }
 };

@@ -19,6 +19,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
 #include <unistd.h>
 #include <assert.h>
 
@@ -153,9 +154,6 @@ pinentry_assuan_reset_handler (assuan_context_t ctx, char *line)
 }
 
 
-
-static int lc_ctype_unknown_warning = 0;
-
 /* Copy TEXT or TEXTLEN to BUFFER and escape as required.  Return a
    pointer to the end of the new buffer.  Note that BUFFER must be
    large enough to keep the entire text; allocataing it 3 times of
@@ -214,7 +212,7 @@ pinentry_inq_quality (pinentry_t pin, const char *passphrase, size_t length)
   command = secmem_malloc (strlen (prefix) + 3*length + 1);
   if (!command)
     return 0;
-  strcpy (command, prefix);
+  strlcpy (command, prefix, strlen(prefix));
   copy_and_escape (command + strlen(command), passphrase, length);
   rc = assuan_write_line (ctx, command);
   secmem_free (command);
@@ -351,7 +349,7 @@ pinentry_init (const char *pgmname)
   /* Store away our name. */
   if (strlen (pgmname) > sizeof this_pgmname - 2)
     abort ();
-  strcpy (this_pgmname, pgmname);
+  strlcpy (this_pgmname, pgmname, strlen(pgmname));
 
   gpgrt_check_version (NULL);
 

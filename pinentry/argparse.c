@@ -503,7 +503,7 @@ ignore_invalid_option_add (ARGPARSE_ARGS *arg, FILE *fp)
               item = jnlib_malloc (sizeof *item + namelen);
               if (!item)
                 return 1;
-              strcpy (item->name, name);
+              strlcpy (item->name, name, namelen);
               item->next = (IIO_ITEM_DEF)arg->internal.iio_list;
               arg->internal.iio_list = item;
             }
